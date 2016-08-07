@@ -1,12 +1,33 @@
 {
-  "name": "reactnativewebviewer",
+  "name": "react-native-webviewer",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
     "start": "react-native start"
   },
   "dependencies": {
     "react": "^15.3.0",
     "react-native": "^0.23.0"
-  }
+  },
+  "description": "Webview for ReactNative",
+  "main": "Webviewer.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darkty2009/react-native-webviewer.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "webview",
+    "html",
+    "bridge",
+    "history",
+    "loading"
+  ],
+  "author": "darkty2009",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darkty2009/react-native-webviewer/issues"
+  },
+  "homepage": "https://github.com/darkty2009/react-native-webviewer#readme"
 }
