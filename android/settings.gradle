@@ -1,0 +1,3 @@
+rootProject.name = 'reactnativewebviewer'
+
+include ':app'
