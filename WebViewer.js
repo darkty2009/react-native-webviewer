@@ -8,6 +8,9 @@ import React, {
     Dimensions
 } from 'react-native';
 
+import MessageQueue from 'MessageQueue';
+var http = require('http');
+
 class Loading extends Component {
     constructor(props) {
         super(props);
@@ -49,16 +52,9 @@ class Loading extends Component {
                     toValue: Dimensions.get('window').width,
                     duration: 300
                 }
-            ),
-            Animated.timing(
-                this.state.opacityValue,
-                {
-                    toValue: 0,
-                    duration: 100
-                }
             )
         ]);
-        this.animated.start();
+        this.animated.start(()=>this.state.opacityValue.setValue(0));
     }
 
     render() {
@@ -70,9 +66,8 @@ export default class WebViewer extends Component {
     constructor(props) {
         super(props);
 
-        this.onLoadStart = this.onLoadStart.bind(this);
-        this.onLoadEnd = this.onLoadEnd.bind(this);
         this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
+        this.lastNav = {};
     }
 
     static defaultProps = {
@@ -80,28 +75,21 @@ export default class WebViewer extends Component {
         loading:Loading
     }
 
-    componentDidMount() {
-
-    }
-
-    onLoadStart(e) {
-        this.refs.loading.start(e);
-    }
-
-    onLoadEnd(e) {
-        this.refs.loading.end(e);
-    }
-
-    onNavigationStateChange(stack) {
-
+    onNavigationStateChange(nav) {
+        if(nav.loading && nav.url != this.lastNav.url) {
+            this.lastNav = nav;
+            this.refs.loading.start();
+        }else {
+            this.lastNav = {};
+            this.refs.loading.end();
+        }
     }
 
     render() {
         var Loading = this.props.loading;
 
         var props = Object.assign({}, this.props);
-        props.onLoad = this.onLoadStart;
-        props.onLoadEnd = this.onLoadEnd;
+        props.javaScriptEnabled = true;
         props.onNavigationStateChange = this.onNavigationStateChange;
 
         return <View style={styles.container}>

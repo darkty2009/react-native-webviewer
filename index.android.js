@@ -44,7 +44,7 @@ class Demo extends Component {
     }
 
     render() {
-        return <WebViewer source={{uri:"http://map.baidu.com"}} />;
+        return <WebViewer source={{uri:"http://npmjs.com"}} />;
     }
 }
 
