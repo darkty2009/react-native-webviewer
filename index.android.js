@@ -43,8 +43,20 @@ class Demo extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.refs.webview.sendMessage(JSON.stringify('fromRN'));
+    }
+
+    messageHandler(data) {
+        console.warn('USER:', data);
+    }
+
     render() {
-        return <WebViewer source={{uri:"http://npmjs.com"}} />;
+        return <WebViewer
+            ref="webview"
+            source={{uri:"http://10.2.13.127/react-native-webviewer/test.html?v=" + Math.random()}}
+            onMessage={this.messageHandler.bind(this)}
+        ></WebViewer>;
     }
 }
 

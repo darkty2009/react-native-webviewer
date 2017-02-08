@@ -1,12 +1,13 @@
 {
-  "name": "react-native-webviewer",
+  "name": "reactnativewebviewer",
   "version": "0.0.1",
   "scripts": {
     "start": "react-native start"
   },
   "dependencies": {
-    "react": "^0.14.5",
-    "react-native": "^0.23.0"
+    "react": "^0.14.8",
+    "react-native": "^0.23.0",
+    "url": "^0.11.0"
   },
   "description": "Webview for ReactNative",
   "main": "Webviewer.js",
