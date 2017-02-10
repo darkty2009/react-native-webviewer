@@ -14,14 +14,16 @@ import inject from './web/inject.js';
 import url from 'url';
 import event from './lib/event.js';
 
-console.warn(JSON.stringify(url.parse('bridge://content?{32423423432423}')));
-
 export default class WebViewer extends Component {
     constructor(props) {
         super(props);
 
         this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
         this.lastNav = {};
+
+        this.state = {
+            url:props.source ? props.source.url : ""
+        };
     }
 
     static defaultProps = {
@@ -32,10 +34,23 @@ export default class WebViewer extends Component {
         onMediaTest:null
     }
 
+    componentDidMount() {
+        var net = require('react-native-tcp');
+        var server = net.createServer(function(socket) {
+            socket.write('excellent!');
+        }).listen(8082);
+    }
+
+    componetnWillRecieveProps(props) {
+        this.setState({
+            url:props.source ? props.source.url : "",
+            toWebCommand:""
+        });
+    }
+
     onNavigationStateChange(nav) {
         if(nav && nav.url) {
             var result = this.onHashBridge(nav.url);
-            console.warn('result', result, nav.url);
             if(result === false) {
                 return false;
             }
@@ -51,7 +66,9 @@ export default class WebViewer extends Component {
     }
 
     sendMessage(data) {
-
+        this.setState({
+            toWebCommand:data
+        });
     }
 
     onBridgeMessage(event) {
@@ -67,7 +84,7 @@ export default class WebViewer extends Component {
                 return false;
             }
         }else {
-            if(data.hash && data.hash.indexOf('#bridge=') == 0) {
+            if(data.hash && data.hash.indexOf('#bridgeToRN=') == 0) {
                 data = data.hash.replace(/^\#bridge=/, '');
                 this.onBridgeMessage(event.create('', decodeURIComponent(data)));
                 return false;
@@ -95,6 +112,12 @@ export default class WebViewer extends Component {
         props.onMessage = this.onBridgeMessage.bind(this);
         props.onLoadEnd = this.loadEndHandler.bind(this);
         props.onLoadStart = this.loadStartHandler.bind(this);
+        if(props.source) {
+            props.source.url = this.state.url;
+            if(this.state.command) {
+                var parse = url.parse
+            }
+        }
 
         return <View style={styles.container}>
             <View style={styles.content}>

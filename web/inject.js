@@ -19,9 +19,13 @@ let javascript = `
             location.href = 'bridge://content?d=' + encodeURIComponent(JSON.stringify(data));
         }
         else {
-            location.hash = 'bridge=' + encodeURIComponent(JSON.stringify(data));
+            location.hash = 'bridgeToRN=' + encodeURIComponent(JSON.stringify(data));
         }
     };
+
+    window.addEventListener('hashchange', function() {
+        
+    });
 })();
 `;
 

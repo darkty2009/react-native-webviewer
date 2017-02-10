@@ -1,0 +1,12 @@
+<html>
+<body>
+    this is some content.
+</body>
+<script type="text/javascript" src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
+<script>
+    var socket = io.connect('localhost:8082');
+    socket.on('connect', function(){
+        document.body.innerHTML = 'connected';
+    });
+</script>
+</html>
